@@ -1,22 +1,23 @@
 // Gulp Require File
-const { src, dest, series, watch } = require("gulp");
+const {
+  src,
+  dest,
+  series,
+  watch
+} = require("gulp");
 const gulpSass = require("gulp-sass");
 const autoprefixer = require("autoprefixer");
 const postcss = require("gulp-postcss");
 const minifyScss = require("gulp-minify-css");
-const sourcemaps = require("gulp-sourcemaps");
-const concat = require("gulp-concat");
 const uglify = require("gulp-uglify");
 const browserSync = require("browser-sync").create();
-const pug = require("gulp-pug");
 const imagemin = require("gulp-imagemin");
 
 // Gulp Path File
-var PUG_FILE = "./src/*.pug";
-var SCSS_FILE = "./src/assets/sass/**/*.scss";
-var CSS_FILE = "./src/assets/css/**/*.css";
-var JS_FILE = "./src/assets/js/**/*.js";
-var IMG_FILE = "./src/assets/img/**/*";
+var SCSS_FILE = "./shared/src/sass/**/*.scss";
+var CSS_FILE = "./shared/src/css/**/*.css";
+var JS_FILE = "./shared/src/js/**/*.js";
+var IMG_FILE = "./shared/src/images/**/*";
 
 // Sass Function
 function sass() {
@@ -24,23 +25,23 @@ function sass() {
     .pipe(gulpSass())
     .pipe(postcss([autoprefixer()]))
     .pipe(minifyScss())
-    .pipe(dest("./dist/assets/css"));
+    .pipe(dest("./shared/dist/assets/css"));
 }
 
 // Minify css Function
 function minifycss() {
   return src([CSS_FILE])
     .pipe(minifyScss())
-    .pipe(dest("./dist/assets/css"));
+    .pipe(dest("./shared/dist/assets/css"));
 }
 
 // JS Function
 function javascript() {
   return (
     src([JS_FILE])
-      .pipe(uglify())
-      // .pipe(concat("based.js"))
-      .pipe(dest("./dist/assets/js"))
+    .pipe(uglify())
+    // .pipe(concat("based.js"))
+    .pipe(dest("./shared/dist/assets/js"))
   );
 }
 
@@ -48,28 +49,21 @@ function javascript() {
 function image() {
   return src([IMG_FILE])
     .pipe(imagemin())
-    .pipe(dest("./dist/assets/img"));
+    .pipe(dest("./shared/dist/assets/img"));
 }
 
-// Pug Function
-function html() {
-  return src([PUG_FILE])
-    .pipe(pug())
-    .pipe(dest("./dist"));
-}
 
 // Browser Sync Function
 function browser() {
-  browserSync.init(["./dist/**/*.*"], {
+  browserSync.init(["./**/*.*"], {
     server: {
-      baseDir: "./dist"
+      baseDir: "./"
     }
   });
   watchTasks();
 }
 
 function watchTasks() {
-  watch(PUG_FILE, series(html));
   watch(IMG_FILE, series(image));
   watch(CSS_FILE, series(minifycss));
   watch(SCSS_FILE, series(sass));
@@ -77,11 +71,10 @@ function watchTasks() {
 }
 
 exports.sass = sass;
-exports.html = html;
 exports.image = image;
 exports.minifycss = minifycss;
 exports.javascript = javascript;
 exports.start = series(browser);
 
 // Export All Function
-exports.default = series(sass, html, image, minifycss, javascript);
+exports.default = series(sass, image, minifycss, javascript);
