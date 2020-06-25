@@ -1,10 +1,10 @@
-(function($) {
+(function ($) {
   "use strict";
-  
+
   /*--------------------------------------------
                 Active class jquery
   ---------------------------------------------*/
-  $("ul.navber_list li").on("click", function() {
+  $("ul.navber_list li").on("click", function () {
     $(this)
       .siblings()
       .removeClass("active");
@@ -12,19 +12,14 @@
   });
 
 
-  /*--------------------------------------------
-               Wow Js Jquery
-  ---------------------------------------------*/
-  new WOW().init();
-
 
   /*--------------------------------------------
               Click Search Jquery
   ---------------------------------------------*/
-  $(".add_search").on("click", function() {
+  $(".add_search").on("click", function () {
     $(".search_bar_sp").addClass("open");
   });
-  $(".remove_search").on("click", function() {
+  $(".remove_search").on("click", function () {
     $(".search_bar_sp").removeClass("open");
   });
 
@@ -34,7 +29,7 @@
   ---------------------------------------------*/
   var fixed_top = $("header");
   var width = $(window).width();
-  $(window).on("scroll", function() {
+  $(window).on("scroll", function () {
     if ($(this).scrollTop() >= 70 && width <= 991) {
       fixed_top.addClass("menu-fixed animated fadeInDown");
     } else {
