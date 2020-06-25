@@ -39,9 +39,9 @@ function minifycss() {
 function javascript() {
   return (
     src([JS_FILE])
-    .pipe(uglify())
-    // .pipe(concat("based.js"))
-    .pipe(dest("./shared/dist/assets/js"))
+      .pipe(uglify())
+      // .pipe(concat("based.js"))
+      .pipe(dest("./shared/dist/assets/js"))
   );
 }
 
@@ -49,7 +49,7 @@ function javascript() {
 function image() {
   return src([IMG_FILE])
     .pipe(imagemin())
-    .pipe(dest("./shared/dist/assets/img"));
+    .pipe(dest("./shared/dist/assets/images"));
 }
 
 
